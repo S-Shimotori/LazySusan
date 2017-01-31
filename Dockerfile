@@ -21,7 +21,8 @@ RUN apt-get install -y \
     unzip
 RUN useradd -m ${user_name} \
     && echo "docker:docker" | chpasswd \
-    && echo "${user_name} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${user_name}
+    && echo "${user_name} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${user_name} \
+    && gpasswd -a ${user_name} sudo
 
 USER ${user_name}
 WORKDIR /home/${user_name}
