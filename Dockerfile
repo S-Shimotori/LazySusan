@@ -30,7 +30,8 @@ WORKDIR /home/${user_name}
 # install gringo+clasp
 # https://github.com/potassco/clingo/releases/download/v${clingo_bin_version}/clingo-${clingo_bin_version}-linux-x86_64.tar.gz
 ADD clingo-${clingo_bin_version}-linux-x86_64.tar.gz $HOME
-RUN sudo ln -s $HOME/clingo-${clingo_bin_version}-linux-x86_64/gringo /usr/local/bin/gringo
+RUN sudo ln -s $HOME/clingo-${clingo_bin_version}-linux-x86_64/gringo /usr/local/bin/gringo \
+    && sudo ln -s $HOME/clingo-${clingo_bin_version}-linux-x86_64/clingo /usr/local/bin/clingo
 # https://github.com/potassco/clasp/releases/download/${clasp_bin_version}/clasp-${clasp_bin_version}-x86_64-linux.zip
 ADD clasp-${clasp_bin_version}-x86_64-linux.zip $HOME
 RUN unzip clasp-${clasp_bin_version}-x86_64-linux.zip \
