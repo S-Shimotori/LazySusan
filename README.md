@@ -11,8 +11,7 @@ It also includes [gringo](http://potassco.sourceforge.net/#gringo), [clasp](http
 |---|---|
 |EZCSP|1.7.9|
 |dlv_rsig|1.8.10|
-|gringo(clingo)|5.1.0|
-|clasp|3.2.1|
+|clingo|5.2.0|
 |mkatoms|2.16|
 |BProlog|7.5(EZCSP recommends)|
 |SWIProlog|7.2.3+dfsg-1build2|

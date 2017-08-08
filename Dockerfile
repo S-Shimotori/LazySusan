@@ -1,8 +1,7 @@
 FROM ubuntu:yakkety
 
 
-ARG clingo_bin_version="5.1.0"
-ARG clasp_bin_version="3.2.1"
+ARG clingo_src_version="5.2.0"
 ARG mkatoms_src_version="2.16"
 ARG dlv_rsig_src_version="1.8.10"
 ARG ezcsp_src_version="1.7.9-r4024"
@@ -12,6 +11,7 @@ ARG user_name="docker"
 
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y \
+    cmake \
     flex \
     gcc \
     g++ \
@@ -28,14 +28,13 @@ USER ${user_name}
 WORKDIR /home/${user_name}
 
 # install gringo+clasp
-# https://github.com/potassco/clingo/releases/download/v${clingo_bin_version}/clingo-${clingo_bin_version}-linux-x86_64.tar.gz
-ADD clingo-${clingo_bin_version}-linux-x86_64.tar.gz $HOME
-RUN sudo ln -s $HOME/clingo-${clingo_bin_version}-linux-x86_64/gringo /usr/local/bin/gringo \
-    && sudo ln -s $HOME/clingo-${clingo_bin_version}-linux-x86_64/clingo /usr/local/bin/clingo
-# https://github.com/potassco/clasp/releases/download/${clasp_bin_version}/clasp-${clasp_bin_version}-x86_64-linux.zip
-ADD clasp-${clasp_bin_version}-x86_64-linux.zip $HOME
-RUN unzip clasp-${clasp_bin_version}-x86_64-linux.zip \
-    && sudo ln -s $HOME/clasp-${clasp_bin_version}/clasp-${clasp_bin_version}-x86_64-linux /usr/local/bin/clasp
+# https://github.com/potassco/clingo/archive/v${clingo_src_version}.tar.gz
+ADD clingo-${clingo_src_version}.tar.gz $HOGE
+RUN cmake -H/home/${user_name}/clingo-${clingo_src_version} -B/home/${user_name}/clingo -DCMAKE_BUILD_TYPE=Release \
+    && cmake --build /home/${user_name}/clingo
+RUN sudo ln -s $HOME/clingo/bin/gringo /usr/local/bin/gringo \
+    && sudo ln -s $HOME/clingo/bin/clingo /usr/local/bin/clingo \
+    && sudo ln -s $HOME/clingo/bin/clasp /usr/local/bin/clasp
 
 # install mkatoms
 # http://www.mbal.tk/mkatoms/Source/mkatoms-${mkatoms_src_version}.tgz
