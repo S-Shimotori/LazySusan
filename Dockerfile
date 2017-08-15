@@ -7,6 +7,9 @@ ARG dlv_rsig_src_version="1.8.10"
 ARG ezcsp_src_version="1.7.9-r4024"
 ARG bprolog_bin_version="75"
 ARG swiprolog_apt_version="7.2.3+dfsg-1build2"
+ARG lp_solve_src_major_version="5.5"
+ARG lp_solve_src_patch_version="2.5"
+ARG lp_solve_bin_version="55"
 ARG user_name="docker"
 
 RUN apt-get update && apt-get upgrade -y
@@ -16,6 +19,8 @@ RUN apt-get install -y \
     gcc \
     g++ \
     make \
+    python-dev \
+    python2.7 \
     subversion \
     sudo \
     unzip
@@ -68,6 +73,18 @@ RUN sudo ln -s $HOME/BProlog/bp /usr/local/bin/bp
 
 # install SWIProlog
 RUN sudo apt-get install -y swi-prolog=${swiprolog_apt_version}
+
+# install lp_solve
+# https://sourceforge.net/projects/lpsolve/
+RUN mkdir lp_solve_${lp_solve_src_version}_dev_ux64
+ADD lp_solve_${lp_solve_src_major_version}.${lp_solve_src_patch_version}_Python_source.tar.gz $HOME
+ADD lp_solve_${lp_solve_src_major_version}.${lp_solve_src_patch_version}_dev_ux64.tar.gz /home/${user_name}/lp_solve_${lp_solve_src_major_version}/
+ADD lp_solve_${lp_solve_src_major_version}.${lp_solve_src_patch_version}_dev_ux64.tar.gz /home/${user_name}/lp_solve_${lp_solve_src_major_version}/lpsolve${lp_solve_bin_version}/bin/ux32
+# https://sourceforge.net/projects/lpsolve/files/lpsolve/${lp_solve_src_version}/distribution_${lp_solve_src_version}.htm
+ENV LD_LIBRARY_PATH /home/${user_name}/lp_solve_${lp_solve_src_major_version}/:$LD_LIBRARY_PATH
+WORKDIR /home/${user_name}/lp_solve_5.5/extra/Python
+RUN sudo python2.7 setup.py install
+WORKDIR /home/${user_name}
 
 RUN sudo rm /etc/sudoers.d/${user_name}
 

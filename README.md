@@ -29,3 +29,12 @@ ezcsp --swiprolog hoge.ez
 ezcsp --gams hoge.ez
 ```
 
+## Clingo LP
+
+linear propagating using clingo theory language and interface.
+https://github.com/potassco/clingoLP
+
+|programs|version|
+|---|---|
+|lpsolve|5.5.2.5|
+
