@@ -18,12 +18,17 @@ RUN apt-get install -y \
     flex \
     gcc \
     g++ \
+    locales \
     make \
     python-dev \
     python2.7 \
     subversion \
     sudo \
     unzip
+
+RUN echo "ja_JP.UTF-8 UTF-8" > /etc/locale.gen && \
+    locale-gen ja_JP.UTF-8
+ENV LC_ALL ja_JP.UTF-8
 RUN useradd -m ${user_name} \
     && echo "docker:docker" | chpasswd \
     && echo "${user_name} ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/${user_name} \
